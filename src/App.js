@@ -1,17 +1,9 @@
 import React,{StrictMode, useState} from "react";
+import './App.css';
+import JogarNovamente from './Components/JogarNovamente'
 
 export default function App(){
-    //ESTILOS
-    const tabu={
-      display:'flex',
-      flexDirection:'column'
-    }
-
-    const tabuLinha={
-      display:'flex',
-      flexDirection:'row'
-    }
-
+   
     const casa={
       width:100,
       height:100,
@@ -24,12 +16,6 @@ export default function App(){
       border:'1px solid #000'
     }
 
-    const jogoInicial=[
-      ['','',''],
-      ['','',''],
-      ['','','']
-    ]
-
     const [jogo,setJogo] = useState([['','',''],['','',''],['','','']])
 
     const [simboloAtual,setSimboloAtual] = useState('X');
@@ -38,30 +24,24 @@ export default function App(){
 
     const tabuleiro=(j)=>{
       return(
-         <div style={tabu}>
-            <div style={tabuLinha}>
+         <div className="tabu">
+            <div className="tabuLinha">
                 <div style={casa} data-pos='00' onClick={(e)=>joga(e)}>{j[0][0]}</div>
                 <div style={casa} data-pos='01' onClick={(e)=>joga(e)}>{j[0][1]}</div>
                 <div style={casa} data-pos='02' onClick={(e)=>joga(e)}>{j[0][2]}</div>
             </div>
-            <div style={tabuLinha}>
+            <div className="tabuLinha">
                 <div style={casa} data-pos='10' onClick={(e)=>joga(e)}>{j[1][0]}</div>
                 <div style={casa} data-pos='11' onClick={(e)=>joga(e)}>{j[1][1]}</div>
                 <div style={casa} data-pos='12' onClick={(e)=>joga(e)}>{j[1][2]}</div>
             </div>
-            <div style={tabuLinha}>
+            <div className="tabuLinha">
                 <div style={casa} data-pos='20' onClick={(e)=>joga(e)}>{j[2][0]}</div>
                 <div style={casa} data-pos='21' onClick={(e)=>joga(e)}>{j[2][1]}</div>
                 <div style={casa} data-pos='22' onClick={(e)=>joga(e)}>{j[2][2]}</div>
             </div>
          </div>
       )
-    }
-
-    const BtnJogarNovamente=()=>{
-        if(!jogando){
-          return <button onClick={()=>reiniciar()}>Jogar Novamente</button>
-        }
     }
 
     const verificarVitoria=()=>{
@@ -71,7 +51,7 @@ export default function App(){
       for(let l=0;l<3;l++){
         pontos=0;
         for(let c=0;c<3;c++){
-          if(jogo[l][c] == simboloAtual){
+          if(jogo[l][c] === simboloAtual){
             pontos++
           }
         }
@@ -85,7 +65,7 @@ export default function App(){
       for(let c=0;c<3;c++){
         pontos=0
         for(let l=0;l<3;l++){
-          if(jogo[l][c] == simboloAtual){
+          if(jogo[l][c] === simboloAtual){
             pontos++
           }
         }
@@ -97,7 +77,7 @@ export default function App(){
         //DIAGONAIS
         pontos=0;
         for(let d = 0;d<3;d++){
-          if(jogo[d][d] == simboloAtual){
+          if(jogo[d][d] === simboloAtual){
             pontos++;
           }
         }
@@ -107,7 +87,7 @@ export default function App(){
         pontos=0;
         let l=0;
         for(let c=2;c>=0;c--){
-          if(jogo[l][c] == simboloAtual){
+          if(jogo[l][c] === simboloAtual){
             pontos++
           }
           l++;
@@ -120,7 +100,7 @@ export default function App(){
     }    
 
     const trocaJogador=()=>{
-        simboloAtual == 'X'?setSimboloAtual('O'):setSimboloAtual('X')
+        simboloAtual === 'X'?setSimboloAtual('O'):setSimboloAtual('X')
     }
 
     const retPos=(e)=>{
@@ -130,7 +110,7 @@ export default function App(){
     }
 
     const verEspacoVazio=(e)=>{
-      if(jogo[retPos(e)[0]][retPos(e)[1]] == ''){
+      if(jogo[retPos(e)[0]][retPos(e)[1]] === ''){
         return true
       }else{
         return false
@@ -153,12 +133,6 @@ export default function App(){
       }
     }
 
-    const reiniciar=()=>{
-      setJogando(true);
-      setJogo(jogoInicial);
-      setSimboloAtual('X');
-    }
-
     return(
       <>
          <div>
@@ -168,7 +142,7 @@ export default function App(){
             {tabuleiro(jogo)}
          </div>
          <div>
-            {BtnJogarNovamente()}
+            <JogarNovamente jogando={jogando} setJogando={setJogando} setJogo={setJogo} setSimboloAtual={setSimboloAtual}/>
          </div>
       </>
   )
